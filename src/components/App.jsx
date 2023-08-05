@@ -54,6 +54,8 @@ export class App extends Component {
         <LoadMoreButton onNextPage={this.loadNextImage}>
           Load more{' '}
         </LoadMoreButton>
+        {isModalOpen && <Modal>sgsfgs</Modal>}
+        {/* <button onClick={this.toggleModal}>Button</button> */}
       </div>
     );
   }
