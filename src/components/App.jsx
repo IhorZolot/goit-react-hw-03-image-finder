@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import React, { Component } from 'react';
 
 import { Modal } from './Modal/Modal';
+import { Loader } from './Loader/Loader';
 import { fetchImg } from '../Servise/Api';
 import { LoadMoreButton } from './Button/Button';
 import { Searchbar } from './Searchbar/Searchbar';
@@ -11,23 +12,27 @@ export class App extends Component {
   state = {
     hits: [],
     q: '',
-    page: 1,
-    per_page: 12,
+    page: 0,
+    per_page: 3,
     isModalOpen: false,
+    loading: false,
     error: '',
   };
 
   async componentDidMount() {
     const { per_page, q } = this.state;
     try {
+      this.setState({ loading: true });
       const { hits, total_result } = await fetchImg({ per_page, q });
       this.setState({ hits: hits, total_result });
     } catch (error) {
       this.setState({ error: error.message });
+    } finally {
+      this.setState({ loading: false });
     }
   }
   loadNextImage = () => {
-    this.setState(prevState => ({ page: prevState.page + prevState.per_page }));
+    this.setState(prevState => ({ page: prevState.q + prevState.per_page }));
   };
 
   async componentDidUpdate(_, prevState) {
@@ -46,15 +51,16 @@ export class App extends Component {
   };
 
   render() {
-    const { isModalOpen, hits } = this.state;
+    const { isModalOpen, hits, loading } = this.state;
     return (
       <div>
         <Searchbar onSetSearch={this.handelSetSearch} />
+        {loading && !hits.length ? <Loader /> : <ImageGallery images={hits} />}
         <ImageGallery images={hits} />
         <LoadMoreButton onNextPage={this.loadNextImage}>
-          Load more{' '}
+          Load more
         </LoadMoreButton>
-        {isModalOpen && <Modal>sgsfgs</Modal>}
+        {/* {isModalOpen && <Modal>sgsfgs</Modal>} */}
         {/* <button onClick={this.toggleModal}>Button</button> */}
       </div>
     );

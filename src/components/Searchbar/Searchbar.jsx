@@ -6,7 +6,6 @@ export const Searchbar = ({ onSetSearch }) => {
     const query = event.target.query.value;
     onSetSearch(query);
   };
-
   return (
     <header>
       <form onSubmit={onSubmit}>

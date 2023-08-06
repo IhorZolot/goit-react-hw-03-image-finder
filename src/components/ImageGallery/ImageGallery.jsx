@@ -1,13 +1,17 @@
 import React from 'react';
 
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+
 export const ImageGallery = ({ images = [] }) => {
   console.log(images);
   return (
     <ul>
       {images.map(image => (
-        <li key={image.id}>
-          <img src={image.webformatURL} alt={image.tags} width={100} />
-        </li>
+        <ImageGalleryItem
+          key={image.id}
+          webformatURL={image.webformatURL}
+          largeImageURL={image.largeImageURL}
+        />
       ))}
     </ul>
   );

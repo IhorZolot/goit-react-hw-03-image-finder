@@ -1,24 +1,17 @@
-import * as basicLightbox from 'basiclightbox'
-import {Component} from 'react';
+import * as basicLightbox from 'basiclightbox';
+import { Component } from 'react';
 
-export class  Modal extends Component {
-
-render () {
+export class Modal extends Component {
+  render() {
     return (
+      <div>
         <div>
-          <div>
-            <h2>Modal</h2>
-    
-            <img src="" alt="FOTO" />
-          </div>
+          <img src="" alt="FOTO" />
         </div>
-      );
-
-
-
+      </div>
+    );
+  }
 }
-  
-};
 
 // import * as basicLightbox from 'basiclightbox'
 
