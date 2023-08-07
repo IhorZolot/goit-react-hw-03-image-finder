@@ -1,21 +1,19 @@
 import React from 'react';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryStyled } from './ImageGallery.styled';
 
-import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
-
-export const ImageGallery = ({ images = [] }) => {
-  console.log(images);
+export const ImageGallery = ({ images = [], toggleModal }) => {
   return (
-    <ul>
+    <ImageGalleryStyled>
       {images.map(image => (
         <ImageGalleryItem
           key={image.id}
           webformatURL={image.webformatURL}
           largeImageURL={image.largeImageURL}
+          tags={image.tags}
+          toggleModal={toggleModal}
         />
       ))}
-    </ul>
+    </ImageGalleryStyled>
   );
 };
-
-// isModalOpen
-// { isModalOpen && <Modal>  img src.landscape      </Modal>}

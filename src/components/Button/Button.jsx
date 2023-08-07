@@ -1,5 +1,8 @@
 import React from 'react';
+import { ButtonLoadMoreStyled } from './Button.styled';
 
 export const LoadMoreButton = ({ children, onNextPage }) => {
-  return <button onClick={onNextPage}>{children}</button>;
+  return (
+    <ButtonLoadMoreStyled onClick={onNextPage}>{children}</ButtonLoadMoreStyled>
+  );
 };

@@ -1,20 +1,20 @@
 import React from 'react';
+import {
+  ImageGalleryItemStyled,
+  ImageGalleryItemImageStyles,
+} from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ id, webformatURL, largeImageURL, tags }) => {
+export const ImageGalleryItem = ({ largeImageURL, tags, toggleModal }) => {
+  const handleImageClick = () => {
+    toggleModal();
+  };
   return (
-    <li>
-      <img src={webformatURL} alt={tags} width={150} />
-    </li>
+    <ImageGalleryItemStyled>
+      <ImageGalleryItemImageStyles
+        src={largeImageURL}
+        alt={tags}
+        onClick={handleImageClick}
+      />
+    </ImageGalleryItemStyled>
   );
 };
-
-// {isModalOpen && <Modal>sgsfgs</Modal>}
-
-// {isModalOpen && <Modal>  img src.landscape      </Modal>}
-{
-  /* {isModalOpen && (
-        <Modal>
-          <img src={largeImageURL} alt={tags} />
-        </Modal>
-      )} */
-}

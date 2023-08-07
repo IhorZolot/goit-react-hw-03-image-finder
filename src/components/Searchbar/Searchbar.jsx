@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  SearchbarStyled,
+  SearchFormButtonStyled,
+  SearchFormStyled,
+  SearchFormInput,
+} from './Searchbar.styled';
 
 export const Searchbar = ({ onSetSearch }) => {
   const onSubmit = event => {
@@ -7,17 +13,17 @@ export const Searchbar = ({ onSetSearch }) => {
     onSetSearch(query);
   };
   return (
-    <header>
-      <form onSubmit={onSubmit}>
-        <input
+    <SearchbarStyled>
+      <SearchFormStyled onSubmit={onSubmit}>
+        <SearchFormInput
           type="text"
           name="query"
           placeholder="Search images and photos"
         />
-        <button type="submit">
+        <SearchFormButtonStyled type="submit">
           <span>Search</span>
-        </button>
-      </form>
-    </header>
+        </SearchFormButtonStyled>
+      </SearchFormStyled>
+    </SearchbarStyled>
   );
 };
