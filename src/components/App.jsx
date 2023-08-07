@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import React, { Component } from 'react';
 
 import { Modal } from './Modal/Modal';
@@ -15,9 +14,10 @@ export class App extends Component {
     q: '',
     page: 1,
     per_page: 12,
-    isModalOpen: false,
     loading: false,
+    isModalOpen: false,
     isButtonHidden: true,
+    currentImage: '',
     error: '',
   };
 
@@ -64,24 +64,38 @@ export class App extends Component {
   toggleModal = () => {
     this.setState(prevState => ({ isModalOpen: !prevState.isModalOpen }));
   };
+  handleSetCurrentImage = img => {
+    this.setState({ currentImage: img, isModalOpen: true });
+  };
 
   render() {
-    const { hits, loading, isButtonHidden, isModalOpen } = this.state;
+    const { hits, loading, isButtonHidden, isModalOpen, currentImage, tags } =
+      this.state;
     const isSearchResultsAvailable = hits.length > 0;
+
     return (
       <AppStyled>
         <Searchbar onSetSearch={this.handleSetSearch} />
         {loading && !hits.length ? (
           <Loader />
         ) : (
-          <ImageGallery images={hits} toggleModal={this.toggleModal} />
+          <ImageGallery
+            setCurrentImage={this.handleSetCurrentImage}
+            isOpen={isModalOpen}
+            images={hits}
+            toggleModal={this.toggleModal}
+          />
         )}
         {isSearchResultsAvailable && !isButtonHidden && (
           <LoadMoreButton onNextPage={this.loadNextImage}>
             Load more
           </LoadMoreButton>
         )}
-        {isModalOpen && <Modal onClose={this.toggleModal}></Modal>}
+        {isModalOpen && currentImage && (
+          <Modal onClose={this.toggleModal}>
+            <img src={currentImage} alt={tags} />
+          </Modal>
+        )}
       </AppStyled>
     );
   }

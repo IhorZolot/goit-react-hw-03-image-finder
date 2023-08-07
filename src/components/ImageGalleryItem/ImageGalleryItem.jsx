@@ -1,20 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
-  ImageGalleryItemStyled,
-  ImageGalleryItemImageStyles,
+  GalleryItemStyled,
+  GalleryItemImageStyled,
 } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ largeImageURL, tags, toggleModal }) => {
-  const handleImageClick = () => {
-    toggleModal();
-  };
+export const ImageGalleryItem = ({ largeImageURL, tags, setCurrentImage }) => {
   return (
-    <ImageGalleryItemStyled>
-      <ImageGalleryItemImageStyles
+    <GalleryItemStyled>
+      <GalleryItemImageStyled
         src={largeImageURL}
         alt={tags}
-        onClick={handleImageClick}
+        onClick={() => setCurrentImage(largeImageURL)}
       />
-    </ImageGalleryItemStyled>
+    </GalleryItemStyled>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  setCurrentImage: PropTypes.func.isRequired,
 };

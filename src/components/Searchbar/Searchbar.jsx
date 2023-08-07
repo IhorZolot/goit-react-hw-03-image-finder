@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
   SearchbarStyled,
   SearchFormButtonStyled,
@@ -26,4 +28,8 @@ export const Searchbar = ({ onSetSearch }) => {
       </SearchFormStyled>
     </SearchbarStyled>
   );
+};
+
+Searchbar.propTypes = {
+  onSetSearch: PropTypes.func.isRequired,
 };
