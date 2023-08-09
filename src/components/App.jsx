@@ -18,21 +18,27 @@ export class App extends Component {
     isModalOpen: false,
     isButtonHidden: true,
     currentImage: '',
+    totalHits: 0,
     error: '',
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.fetchImages();
+  }
+
+  fetchImages = async () => {
     const { per_page, q } = this.state;
     try {
       this.setState({ loading: true });
-      const { hits, total_result } = await fetchImg({ per_page, q });
-      this.setState({ hits: hits, total_result });
+      const { hits, totalHits } = await fetchImg({ per_page, q });
+      this.setState({ hits, totalHits });
     } catch (error) {
       this.setState({ error: error.message });
     } finally {
       this.setState({ loading: false });
     }
-  }
+  };
+
   loadNextImage = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
@@ -45,7 +51,7 @@ export class App extends Component {
       this.setState({ hits: [] });
     }
     if (prevState.q !== q || prevState.page !== page) {
-      const { hits } = await fetchImg({
+      const { hits, totalHits } = await fetchImg({
         q,
         per_page,
         page: prevState.q !== q ? 1 : page,
@@ -53,7 +59,7 @@ export class App extends Component {
 
       this.setState(prevState => ({
         hits: [...prevState.hits, ...hits],
-        isButtonHidden: false,
+        totalHits,
       }));
     }
   }
@@ -69,14 +75,21 @@ export class App extends Component {
   };
 
   render() {
-    const { hits, loading, isButtonHidden, isModalOpen, currentImage, tags } =
-      this.state;
-    const isSearchResultsAvailable = hits.length > 0;
+    const {
+      hits,
+      page,
+      per_page,
+      totalHits,
+      loading,
+      isModalOpen,
+      currentImage,
+      tags,
+    } = this.state;
 
     return (
       <AppStyled>
         <Searchbar onSetSearch={this.handleSetSearch} />
-        {loading && !hits.length ? (
+        {(loading && !hits.length) || !hits.length ? (
           <Loader />
         ) : (
           <ImageGallery
@@ -86,7 +99,7 @@ export class App extends Component {
             toggleModal={this.toggleModal}
           />
         )}
-        {isSearchResultsAvailable && !isButtonHidden && (
+        {page !== Math.ceil(totalHits / per_page) && (
           <LoadMoreButton onNextPage={this.loadNextImage}>
             Load more
           </LoadMoreButton>
